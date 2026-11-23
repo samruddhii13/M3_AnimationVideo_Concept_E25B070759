@@ -1,82 +1,85 @@
-"""Scene 6 – Summary & Closing.
-Template A: sequential takeaway cards, then closing frame.
 """
-import sys, os, json
+scene6_summary.py – Three takeaway cards and final credits frame.
+Total audio duration: 27.456 s.
+"""
+import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 from design import *
 
-AUDIO_DIR = os.path.join(os.path.dirname(__file__), "..", "Audio")
-
-def _load_scene_timings(scene_key):
-    p = os.path.join(AUDIO_DIR, "timings.json")
-    if not os.path.exists(p):
-        return [], 0.0
-    with open(p) as f:
-        d = json.load(f)
-    sc = d.get(scene_key, {})
-    return sc.get("sentences", []), sc.get("total_duration", 0.0)
-
 class Scene6Summary(Base):
     def construct(self):
-        sents, total_dur = _load_scene_timings("scene6")
+        timings = load_scene_timings("scene6")
+        total_audio = timings.get("total_duration", 27.456)
 
-        hdr = header(6, "Summary", total=6)
+        hdr = header(6, "Summary and Takeaways", total=6)
         self.add(hdr)
 
-        # ── Takeaway 1 ────────────────────────────────────────────────────────
-        sync_to(self, sents[1]["start"])
-        c1 = card(
-            T("A function maps each input to exactly one output.", 32, INK),
-            color=CURVE, pad=0.42
-        )
-        place(c1, region_h=1.4, center=CONTENT_CENTER + UP * 1.4)
-        self.play(FadeIn(c1), run_time=0.8)
+        # ── Three Takeaway Cards ──────────────────────────────────────────
+        def make_takeaway_card(num_str, title_str, line1_str, line2_str, col):
+            num_chip = T(num_str, 24, BG, True)
+            chip_bg  = RoundedRectangle(corner_radius=0.14, width=0.6, height=0.5, fill_color=col, fill_opacity=1, stroke_width=0)
+            num_chip.move_to(chip_bg)
+            chip = VGroup(chip_bg, num_chip)
 
-        # ── Takeaway 2 ────────────────────────────────────────────────────────
-        sync_to(self, sents[2]["start"])
-        c2 = card(
-            VGroup(
-                T("Read the graph:", 32, INK, bold=True),
-                T("intercepts, maximum, domain, range,", 30, INK),
-                T("increasing [0,2]  ·  decreasing [2,4]", 30, MUTED),
-            ).arrange(DOWN, buff=0.2),
-            color=GOOD, pad=0.42
-        )
-        place(c2, region_h=2.2, center=CONTENT_CENTER + DOWN * 0.1)
-        self.play(FadeIn(c2), run_time=0.8)
+            ball_icon = make_ball(0.18)
+            hdr_row   = VGroup(chip, ball_icon).arrange(RIGHT, buff=0.25)
+            t_head    = T(title_str, 24, col, bold=True)
+            t_body    = VGroup(T(line1_str, 22, INK), T(line2_str, 22, INK)).arrange(DOWN, buff=0.12)
+            c = card(hdr_row, t_head, t_body, color=col, gap=0.22, pad=0.3)
+            return c
 
-        # ── Takeaway 3 ────────────────────────────────────────────────────────
-        sync_to(self, sents[3]["start"])
-        c3 = card(
-            T("Vertical Line Test confirms a graph is a function.", 32, INK),
-            color=MAXC, pad=0.42
-        )
-        place(c3, region_h=1.4, center=CONTENT_CENTER + DOWN * 1.5)
-        if c3.get_bottom()[1] < -config.frame_height/2 + 1.2:
-            c3.shift(UP * (-config.frame_height/2 + 1.2 - c3.get_bottom()[1]))
-        self.play(FadeIn(c3), run_time=0.8)
+        c1 = make_takeaway_card("1", "Function Rule", "Each input has", "exactly one output", CURVE)
+        c2 = make_takeaway_card("2", "The Graph", "Each graph point is", "an input-output pair", GOOD)
+        c3 = make_takeaway_card("3", "Key Features", "Features tell the", "real-life story", MAXC)
 
-        # ── Closing frame ─────────────────────────────────────────────────────
-        sync_to(self, sents[4]["start"])
-        self.play(FadeOut(c1), FadeOut(c2), FadeOut(c3), run_time=0.4)
+        cards = VGroup(c1, c2, c3).arrange(RIGHT, buff=0.32).move_to(CONTENT_CENTER + UP * 0.2)
 
-        closing_rows = VGroup(
-            T("From Input to Output", 36, INK, bold=True),
-            T("Reading the Graph of a Function", 30, CURVE),
-            Line(LEFT*5, RIGHT*5, stroke_width=1.2, color=MUTED).set_opacity(0.5),
-            VGroup(
-                T("Samruddhi Meshram  ·  E25B070759", 28, MUTED),
-                T("Linear Algebra and Calculus (M3)", 28, MUTED),
-            ).arrange(DOWN, buff=0.14),
-            Line(LEFT*4, RIGHT*4, stroke_width=1.0, color=MUTED).set_opacity(0.4),
-            T("References: course textbook and class notes", 24, MUTED),
-            T("Audio: edge-tts · en-IN-NeerjaNeural, +32% rate", 22, MUTED),
-            T("Animations: Manim Community Edition", 22, MUTED),
-            T("Produced with AI assistance. All maths verified by student.", 20, MUTED),
-        ).arrange(DOWN, buff=0.24)
-        closing_box = card(closing_rows, color=CURVE, pad=0.5)
-        place(closing_box)
-        self.play(FadeIn(closing_box), run_time=0.8)
+        # ── Beat 0 & 1: (0.00s - 8.48s) Card 1 ───────────────────────────
+        sync_to(self, 0.0)
+        sync_to(self, 2.48)
+        self.play(FadeIn(c1, shift=UP*0.3), run_time=1.2)
 
-        sync_to(self, total_dur + 0.15)
+        # ── Beat 2: (8.78s - 14.54s) Card 2 ──────────────────────────────
+        sync_to(self, 8.78)
+        self.play(FadeIn(c2, shift=UP*0.3), run_time=1.2)
+
+        # ── Beat 3: (14.84s - 21.56s) Card 3 ──────────────────────────────
+        sync_to(self, 14.84)
+        self.play(FadeIn(c3, shift=UP*0.3), run_time=1.2)
+        self.wait(1.5)
+
+        # ── Beat 4 & 5: (21.86s - 27.46s) Closing Frame ──────────────────
+        sync_to(self, 21.86)
+        self.play(FadeOut(cards), FadeOut(hdr), run_time=0.6)
+
+        headline = T("What goes in? What comes out? What does each feature mean?", 28, POINT, bold=True)
+        name_id  = T("Samruddhi Meshram | E25B070759", 26, INK, bold=True)
+        course   = T("Linear Algebra and Calculus (M3)", 22, CURVE)
+        div_line = Line(LEFT * 4.8, RIGHT * 4.8, color=CURVE, stroke_width=1.5).set_opacity(0.7)
+
+        c_ref    = T("References: course textbook and class notes", 20, INK)
+        c_mus    = T("Music: No background music", 20, INK)
+        c_ai     = T("AI disclosure: code, script and narration voice created with AI tools.", 18, MUTED)
+        c_ai2    = T("Maths verified by the student. Details in README.md.", 18, MUTED)
+
+        credits_grp = VGroup(c_ref, c_mus, c_ai, c_ai2).arrange(DOWN, buff=0.14, aligned_edge=LEFT)
+
+        closing_vgroup = VGroup(
+            headline,
+            name_id,
+            course,
+            div_line,
+            credits_grp
+        ).arrange(DOWN, buff=0.22).move_to(CONTENT_CENTER)
+
+        # Entry order: headline, name/course, line, credits one by one (0.4s each)
+        self.play(FadeIn(headline, shift=UP*0.2), run_time=0.6)
+        self.play(FadeIn(name_id), FadeIn(course), run_time=0.6)
+        self.play(Create(div_line), run_time=0.4)
+        self.play(FadeIn(c_ref), run_time=0.4)
+        self.play(FadeIn(c_mus), run_time=0.4)
+        self.play(FadeIn(c_ai), FadeIn(c_ai2), run_time=0.5)
+
+        # Hold until audio completes + 0.5s margin
+        sync_to(self, total_audio + 0.5)
         check_layout(self)

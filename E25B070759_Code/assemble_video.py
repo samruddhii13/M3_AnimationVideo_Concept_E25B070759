@@ -38,9 +38,9 @@ def main():
         ("scene6_summary",       "Scene6Summary",       "scene6_audio.mp3"),
     ]
 
-    # Manim -qh produces 1080p60; fall back to 1080p30 if 60 not found
+    # Manim produces 1080p30 or 1080p60
     def find_video(folder, cls):
-        for quality in ("1080p60", "1080p30"):
+        for quality in ("1080p30", "1080p60"):
             p = media_dir / "videos" / folder / quality / f"{cls}.mp4"
             if p.exists():
                 return p

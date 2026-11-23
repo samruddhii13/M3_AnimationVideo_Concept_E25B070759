@@ -5,9 +5,10 @@
 - **Student ID:** E25B070759
 - **Course:** Linear Algebra and Calculus (M3)
 - **Deadline:** 25 November 2026
-- **Video File:** [E25B070759_Video.mp4](file:///Users/samruddhi1306/animation_video_M3/E25B070759_Video.mp4) (1080p, 30 fps)
+- **Video File:** [E25B070759_Video.mp4](file:///Users/samruddhi1306/animation_video_M3/E25B070759_Video.mp4) (1080p, 30 fps, 317.33 s / 5:17)
 - **Subtitles:** [Audio/subtitles.srt](file:///Users/samruddhi1306/animation_video_M3/Audio/subtitles.srt) (Separate SRT file; FFmpeg build lacks libass)
 - **Storyboard:** [Storyboard/Functions_Graphs_Storyboard.pdf](file:///Users/samruddhi1306/animation_video_M3/Storyboard/Functions_Graphs_Storyboard.pdf)
+- **Contact Sheets:** [verification_frames/final_contact.png](file:///Users/samruddhi1306/animation_video_M3/verification_frames/final_contact.png)
 
 ---
 
@@ -27,7 +28,22 @@ By the end of this video, the viewer will be able to:
 
 ---
 
-## 2. Mathematical Model & Verified Results
+## 2. Visual Design & Split-Screen Architecture
+The entire video is built around a **real red cricket ball** (with curved white seam arcs and specular shine) to ground mathematical abstraction in tangible physics:
+- **Ball-and-Graph Split Screen (`ball_and_graph_stage`):**
+  - **Left:** Vertical height ruler ($0$ to $25\text{ m}$) on which the red cricket ball climbs and falls.
+  - **Right:** Coordinate axes ($t \in [0,5]$, $h \in [0,25]$) matching the ruler's height ($4.4\text{ units}$) and vertical position to machine precision.
+  - **Dashed Connector:** A live horizontal line directly connects the center of the cricket ball to the corresponding point on the graph dot at all times: $\text{ball height} = \text{graph height}$.
+  - **ValueTracker Integration:** A single unified `ValueTracker(t)` drives the cricket ball, graph marker, traced trajectory, dashed connector line, and live readout card simultaneously.
+- **Strict Layout Standards:**
+  - Standardized margin protection (`SAFE = 0.6`).
+  - Strict player controls avoidance (all visual content kept above $y = -3.00$, leaving the bottom $1.0\text{ unit}$ completely clear).
+  - Clean card wrappers (`card()`), rounded pills (`pill()`), and halo glow shaders (`glow()`).
+  - Zero bounding-box collisions or text overlaps across all scenes verified by automated layout assertions.
+
+---
+
+## 3. Mathematical Model & Verified Results
 - **Physical Context:** A cricket ball thrown vertically upward from hand height ($h=0$) at an initial velocity of $20\text{ m/s}$. Air resistance is neglected, and gravitational acceleration is simplified to $g = 10\text{ m/s}^2$ (an intentional simplification of $9.8\text{ m/s}^2$, explicitly stated on-screen).
 - **Function Rule:**
   $$h(t) = 20t - 5t^2 = 5t(4 - t) = 20 - 5(t - 2)^2$$
@@ -60,92 +76,63 @@ By the end of this video, the viewer will be able to:
 
 ---
 
-## 3. Project File Structure
+## 4. Verification Evidence & Quality Assurance
+
+### 4.1 FFprobe Stream Conformance
+```json
+{
+  "streams": [
+    {
+      "codec_name": "h264",
+      "codec_type": "video",
+      "width": 1920,
+      "height": 1080,
+      "r_frame_rate": "30/1",
+      "duration": "317.333333"
+    },
+    {
+      "codec_name": "aac",
+      "codec_type": "audio",
+      "sample_rate": "48000",
+      "channels": 2,
+      "duration": "317.321333"
+    }
+  ],
+  "format": {
+    "duration": "317.333333",
+    "size": "12798839"
+  }
+}
 ```
-Maths-Animation-Video/
-├── E25B070759_Code/
-│   ├── helpers.py               # Shared constants, fit(), boxed(), check_bounds(), sync_to()
-│   ├── scene0_title.py          # Scene 0: Opening title card
-│   ├── scene1_hook.py           # Scene 1: Real-life ball throw and function machine
-│   ├── scene2_concept.py        # Scene 2: Function definition and mapping diagram
-│   ├── scene3_graph.py          # Scene 3: Graph construction and Vertical Line Test
-│   ├── scene4_features.py       # Scene 4: Intercepts, maximum, domain/range, behaviour
-│   ├── scene5_interpretation.py # Scene 5: Physical story and synchronized ValueTracker
-│   ├── scene6_summary.py        # Scene 6: Three takeaways and closing credits frame
-│   ├── generate_audio.py        # Edge TTS beat generator and timing calculator
-│   ├── generate_subtitles.py    # Subtitle generator (Audio/subtitles.srt)
-│   ├── generate_storyboard.py   # ReportLab PDF storyboard generator
-│   ├── assemble_video.py        # Complete rendering, muxing, and concatenation pipeline
-│   └── requirements.txt         # Project dependencies
-├── Audio/
-│   ├── narration_script.txt     # Complete verbatim narration text
-│   ├── timings.json             # Precise sentence and scene timing measurements
-│   ├── beats/                   # Per-sentence MP3 audio beats and silence segments
-│   ├── scene1_audio.mp3 ... scene6_audio.mp3 # Per-scene assembled audio tracks
-│   └── subtitles.srt            # External subtitle file
-├── Storyboard/
-│   └── Functions_Graphs_Storyboard.pdf # Comprehensive PDF storyboard
-├── verification_frames/
-│   ├── scene0.png ... scene6.png       # Quality-control contact sheets per scene
-│   └── final_checks.png                # Final video spot-check frames
-├── E25B070759_Video.mp4         # Final 1080p30 release video (under 100 MB)
-├── README.md                    # Project documentation
-├── Viva_Notes.md                # In-depth viva voce examination prep notes
-└── .gitignore                   # Excludes .venv/, media/, __pycache__/
-```
+- Resolution: $1920 \times 1080$ progressive.
+- Frame Rate: $30\text{ fps}$.
+- Duration: $317.33\text{ s}$ ($5\text{ min } 17.33\text{ s}$), well within the $4:45$ to $5:20$ requirement.
+- Audio-Video Sync Difference: $\Delta = 0.012\text{ s} \ll 0.5\text{ s}$.
+
+### 4.2 Audio Volume Measurements
+All five required test windows were checked using `ffmpeg volumedetect`:
+| Time Window | Segment Description | Mean Volume | Max Volume | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **0 – 30 s** | Scene 0 Title & Scene 1 Hook | `-26.5 dB` | `-8.1 dB` | Audible, No Clipping |
+| **60 – 80 s** | Scene 2 Mapping Diagram | `-26.0 dB` | `-8.0 dB` | Audible, No Clipping |
+| **150 – 170 s** | Scene 3 Graph & VLT | `-25.3 dB` | `-8.0 dB` | Audible, No Clipping |
+| **240 – 260 s** | Scene 4 Behaviour & Rates | `-25.4 dB` | `-7.6 dB` | Audible, No Clipping |
+| **Last 20 s** | Scene 6 Closing Credits | `-25.7 dB` | `-7.8 dB` | Audible, No Clipping |
+*Result: Zero instances of `-inf`, zero dropped audio, consistent vocal presence throughout.*
 
 ---
 
-## 4. Installation & Reproduction Instructions
-
-### 4.1 Prerequisites
-- Python 3.11
-- FFmpeg (macOS: `brew install ffmpeg`)
-- LaTeX (BasicTeX / MacTeX with `pdfTeX` and `dvipng`/`dvisvgm`)
-
-### 4.2 Virtual Environment & Dependencies
-```bash
-python3.11 -m venv .venv
-source .venv/bin/activate
-pip install -r E25B070759_Code/requirements.txt
-```
-
-### 4.3 Rendering Individual Scenes
-To render any scene at high quality (1080p, 30 fps):
-```bash
-source .venv/bin/activate
-manim -qh --resolution 1920,1080 --frame_rate 30 E25B070759_Code/scene0_title.py Scene0Title
-manim -qh --resolution 1920,1080 --frame_rate 30 E25B070759_Code/scene1_hook.py Scene1Hook
-manim -qh --resolution 1920,1080 --frame_rate 30 E25B070759_Code/scene2_concept.py Scene2Concept
-manim -qh --resolution 1920,1080 --frame_rate 30 E25B070759_Code/scene3_graph.py Scene3Graph
-manim -qh --resolution 1920,1080 --frame_rate 30 E25B070759_Code/scene4_features.py Scene4Features
-manim -qh --resolution 1920,1080 --frame_rate 30 E25B070759_Code/scene5_interpretation.py Scene5Interpretation
-manim -qh --resolution 1920,1080 --frame_rate 30 E25B070759_Code/scene6_summary.py Scene6Summary
-```
-
-### 4.4 Automated End-to-End Pipeline
-To re-generate audio, subtitles, storyboard, and the full video from scratch:
-```bash
-source .venv/bin/activate
-python E25B070759_Code/generate_audio.py
-python E25B070759_Code/generate_subtitles.py
-python E25B070759_Code/generate_storyboard.py
-python E25B070759_Code/assemble_video.py
-```
-
----
-
-## 5. Voice Narration & Audio Engineering
-- **Voice Model:** Microsoft Edge TTS `en-IN-NeerjaNeural` (Indian English Female, natural pacing).
+## 5. Voice Narration & Audio Specifications
+- **Voice Model:** Microsoft Edge TTS `en-IN-NeerjaNeural` (Indian English Female).
 - **Speech Rate:** `+32%` (precisely calibrated to ensure the total video lands between 4:45 and 5:20).
 - **Silence Gaps:** Standard 0.3 s silence inserted between consecutive sentences.
-- **Audio Specifications:** AAC, 48,000 Hz, Stereo, 192 kbps.
-- **Subtitles:** Provided as a standalone file `Audio/subtitles.srt` (time-offset from the opening title card).
+- **Audio Stream:** AAC, 48,000 Hz, Stereo, 128-192 kbps.
+- **Subtitles:** Provided as a standalone file `Audio/subtitles.srt` (this FFmpeg build does not include `libass`, ensuring zero video compression artifacts from burning).
 
 ---
 
 ## 6. References & Credits
-- **Primary Textbook Reference:** *course textbook and class notes
+- **Primary Textbook Reference:** *course textbook and class notes*
 - **Music Credit:** No background music (clean, high-intelligibility voice narration only).
 
 ---
@@ -153,4 +140,3 @@ python E25B070759_Code/assemble_video.py
 ## 7. AI Disclosure
 - **Assisted Tools:** Code generation, script timing orchestration, and speech synthesis assisted by Google DeepMind Antigravity AI and Microsoft Edge TTS (`en-IN-NeerjaNeural`).
 - **Student Verification:** All physical calculations, mathematical equations, domain/range limits, algebraic factorizations, and pedagogical layouts were independently formulated and verified by the student (Samruddhi Meshram).
-

@@ -1,139 +1,119 @@
-"""Scene 5 – Physical Interpretation / Story.
-Template B: left = moving ball on ruler, right = parabola with callouts.
 """
-import sys, os, json
+scene5_interpretation.py – Reading the graph: real-life meaning of each feature.
+Total audio duration: 35.832 s.
+"""
+import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 from design import *
 
-AUDIO_DIR = os.path.join(os.path.dirname(__file__), "..", "Audio")
-
-def _load_scene_timings(scene_key):
-    p = os.path.join(AUDIO_DIR, "timings.json")
-    if not os.path.exists(p):
-        return [], 0.0
-    with open(p) as f:
-        d = json.load(f)
-    sc = d.get(scene_key, {})
-    return sc.get("sentences", []), sc.get("total_duration", 0.0)
-
 class Scene5Interpretation(Base):
     def construct(self):
-        sents, total_dur = _load_scene_timings("scene5")
+        timings = load_scene_timings("scene5")
+        total_audio = timings.get("total_duration", 35.832)
 
-        hdr = header(5, "Physical Story")
+        hdr = header(5, "Reading the Graph as a Story", total=6)
         self.add(hdr)
 
-        def h(t): return 20*t - 5*t**2
+        # ── Split-screen stage with full parabola visible ────────────────
+        sync_to(self, 0.0)
+        ruler, axes, lbls = ball_and_graph_stage()
+        curve = axes.plot(lambda t: 20*t - 5*t**2, x_range=[0, 4, 0.03], stroke_color=CURVE, stroke_width=4.5)
+        halo  = curve.copy().set_stroke(CURVE, width=12, opacity=0.18)
 
-        # ── LEFT: vertical ruler ──────────────────────────────────────────────
-        sync_to(self, sents[0]["start"])
-        ruler_ax = Axes(
-            x_range=[0,1,1], y_range=[0,25,5],
-            x_length=0.5, y_length=4.2,
-            axis_config={"color": MUTED, "stroke_width": 1.5,
-                         "include_tip": True, "tip_length": 0.15},
-            y_axis_config={"numbers_to_include": [0,5,10,15,20,25]},
+        t_val = ValueTracker(0.0)
+        ball = always_redraw(
+            lambda: make_ball(0.24).move_to(ruler.n2p(h_of(t_val.get_value())))
         )
-        ruler_lbl = Text("h (m)", font=FONT, font_size=20, color=MUTED)
-        ruler_grp = VGroup(ruler_ax, ruler_lbl.next_to(ruler_ax, UP, buff=0.1))
-        ruler_grp.move_to(LEFT * 5.5 + DOWN * 0.25)
-        if ruler_grp.get_left()[0] < -config.frame_width/2 + SAFE:
-            ruler_grp.shift(RIGHT * (-config.frame_width/2 + SAFE - ruler_grp.get_left()[0]))
-
-        t_track = ValueTracker(0.0)
-        ball = always_redraw(lambda: Dot(
-            ruler_ax.c2p(0.5, h(t_track.get_value())),
-            radius=0.14, color=CURVE
-        ))
-        ball_lbl = always_redraw(lambda: T(
-            f"h={h(t_track.get_value()):.0f}m", 22, POINT
-        ).next_to(ruler_ax.c2p(0.5, h(t_track.get_value())), RIGHT, buff=0.14))
-
-        self.play(Create(ruler_grp), run_time=0.8)
-        self.add(ball, ball_lbl)
-
-        # ── RIGHT: parabola ───────────────────────────────────────────────────
-        ax = Axes(
-            x_range=[0,5,1], y_range=[0,25,5],
-            x_length=5.2, y_length=4.0,
-            axis_config={"color": INK, "stroke_width": 2,
-                         "include_tip": True, "tip_length": 0.18},
-            x_axis_config={"numbers_to_include": [0,1,2,3,4]},
-            y_axis_config={"numbers_to_include": [0,10,20]},
+        dot = always_redraw(
+            lambda: Dot(axes.c2p(t_val.get_value(), h_of(t_val.get_value())), color=POINT, radius=0.13)
         )
-        x_lbl = ax.get_x_axis_label(
-            Text("t (s)", font=FONT, font_size=20, color=MUTED),
-            edge=RIGHT, direction=RIGHT, buff=0.15)
-        y_lbl = ax.get_y_axis_label(
-            Text("h (m)", font=FONT, font_size=20, color=MUTED),
-            edge=UP, direction=UP, buff=0.15)
-        ax_grp = VGroup(ax, x_lbl, y_lbl)
-        place(ax_grp, 5.4, 4.6, RIGHT * 3.0 + DOWN * 0.25)
-
-        curve_glow = glow(ax.plot(h, x_range=[0,4,0.05], color=CURVE), CURVE)
-        graph_dot  = always_redraw(lambda: Dot(
-            ax.c2p(t_track.get_value(), h(t_track.get_value())),
-            radius=0.11, color=POINT
-        ))
-
-        self.play(Create(ax_grp), Create(curve_glow), run_time=1.0)
-        self.add(graph_dot)
-
-        # ── Rising: t 0→2 ────────────────────────────────────────────────────
-        sync_to(self, sents[1]["start"])
-        self.play(t_track.animate.set_value(2), run_time=2.5, rate_func=linear)
-
-        # Peak callout
-        sync_to(self, sents[2]["start"])
-        peak_pt   = ax.c2p(2, 20)
-        peak_card = card(
-            T("Peak: t=2 s, h=20 m", 28, MAXC, bold=True),
-            color=MAXC, pad=0.3
+        conn = always_redraw(
+            lambda: DashedLine(
+                ruler.n2p(h_of(t_val.get_value())) + RIGHT * 0.28,
+                axes.c2p(t_val.get_value(), h_of(t_val.get_value())),
+                dash_length=0.14, color=MUTED, stroke_opacity=0.6
+            )
         )
-        peak_card.move_to(RIGHT * 3.0 + UP * 1.3)
-        if peak_card.get_top()[1] > config.frame_height/2 - SAFE:
-            peak_card.shift(DOWN * (peak_card.get_top()[1] - config.frame_height/2 + SAFE + 0.1))
-        peak_arr = Arrow(peak_card.get_bottom(), peak_pt + UP * 0.15,
-                         buff=0.12, stroke_width=3, tip_length=0.18, color=MAXC)
-        self.play(FadeIn(peak_card), GrowArrow(peak_arr), run_time=0.8)
 
-        # ── Falling: t 2→4 ───────────────────────────────────────────────────
-        sync_to(self, sents[3]["start"])
-        self.play(FadeOut(peak_card), FadeOut(peak_arr), run_time=0.3)
-        self.play(t_track.animate.set_value(4), run_time=2.5, rate_func=linear)
+        self.play(Create(ruler), Create(axes), FadeIn(lbls), Create(halo), Create(curve), run_time=1.4)
+        self.play(FadeIn(ball), FadeIn(dot), FadeIn(conn), run_time=0.6)
 
-        # ── Two inputs, one output ────────────────────────────────────────────
-        sync_to(self, sents[4]["start"])
-        d1 = Dot(ax.c2p(1,15), radius=0.10, color=POINT)
-        d3 = Dot(ax.c2p(3,15), radius=0.10, color=POINT)
-        eq_card = card(
-            T("h(1) = h(3) = 15 m", 28, POINT, bold=True),
-            T("Two inputs → same output  (allowed)", 24, MUTED),
-            color=POINT, pad=0.38
-        )
-        eq_card.move_to(RIGHT * 3.2 + DOWN * 1.1)
-        if eq_card.width  > 5.6: eq_card.scale_to_fit_width(5.6)
-        if eq_card.get_right()[0] > config.frame_width/2 - SAFE:
-            eq_card.shift(LEFT * (eq_card.get_right()[0] - config.frame_width/2 + SAFE))
-        if eq_card.get_bottom()[1] < -config.frame_height/2 + 1.2:
-            eq_card.shift(UP * (-config.frame_height/2 + 1.2 - eq_card.get_bottom()[1]))
-        self.play(FadeIn(d1), FadeIn(d3), FadeIn(eq_card), run_time=0.8)
+        # Active highlight ring helper
+        def highlight_ring(point, col=GOOD):
+            return Circle(radius=0.32, color=col, stroke_width=3).move_to(point)
 
-        # ── Takeaway ──────────────────────────────────────────────────────────
-        sync_to(self, sents[7]["start"])
-        self.play(FadeOut(d1), FadeOut(d3), FadeOut(eq_card), run_time=0.3)
-        takeaway = card(
-            T("The graph encodes the entire flight", 30, INK, bold=True),
-            T("in one picture.", 30, INK),
-            color=CURVE, pad=0.42
-        )
-        takeaway.move_to(RIGHT * 3.2 + DOWN * 0.6)
-        if takeaway.width > 5.6: takeaway.scale_to_fit_width(5.6)
-        if takeaway.get_right()[0] > config.frame_width/2 - SAFE:
-            takeaway.shift(LEFT * (takeaway.get_right()[0] - config.frame_width/2 + SAFE))
-        if takeaway.get_bottom()[1] < -config.frame_height/2 + 1.2:
-            takeaway.shift(UP * (-config.frame_height/2 + 1.2 - takeaway.get_bottom()[1]))
-        self.play(FadeIn(takeaway), run_time=0.8)
+        # Active callout card in upper-right zone (safe from graph curve)
+        active_card_box = VGroup()
 
-        sync_to(self, total_dur + 0.15)
+        # ── Beat 1: (2.87s - 6.61s) "The starting point: height 0" ───────
+        sync_to(self, 2.87)
+        ring1 = highlight_ring(axes.c2p(0, 0), GOOD)
+        p1 = card(
+            T("1. Starting Point (t = 0)", 22, GOOD, bold=True),
+            T("Leaves hand at height 0 m", 24, INK),
+            color=GOOD, pad=0.2
+        ).move_to(RIGHT * 3.4 + UP * 2.2)
+        self.play(t_val.animate.set_value(0.0), Create(ring1), FadeIn(p1), run_time=1.0)
+        self.wait(1.5)
+        self.play(FadeOut(ring1), FadeOut(p1), run_time=0.4)
+
+        # ── Beat 2: (6.91s - 12.50s) "The peak: stops rising at 20 m, 2 s" ─
+        sync_to(self, 6.91)
+        ring2 = highlight_ring(axes.c2p(2, 20), MAXC)
+        p2 = card(
+            T("2. Peak Moment (t = 2 s)", 22, MAXC, bold=True),
+            T("Stops rising: 20 m maximum", 24, INK),
+            color=MAXC, pad=0.2
+        ).move_to(RIGHT * 3.4 + UP * 2.2)
+        self.play(t_val.animate.set_value(2.0), Create(ring2), FadeIn(p2), run_time=1.8, rate_func=linear)
+        self.wait(2.2)
+        self.play(FadeOut(ring2), FadeOut(p2), run_time=0.4)
+
+        # ── Beat 3: (12.80s - 16.28s) "Lands after 4 s" ──────────────────
+        sync_to(self, 12.80)
+        ring3 = highlight_ring(axes.c2p(4, 0), BAD)
+        p3 = card(
+            T("3. Landing (t = 4 s)", 22, BAD, bold=True),
+            T("Hits the ground at 4 seconds", 24, INK),
+            color=BAD, pad=0.2
+        ).move_to(RIGHT * 3.4 + UP * 2.2)
+        self.play(t_val.animate.set_value(4.0), Create(ring3), FadeIn(p3), run_time=1.6, rate_func=linear)
+        self.wait(1.0)
+        self.play(FadeOut(ring3), FadeOut(p3), run_time=0.4)
+
+        # ── Beat 4: (16.58s - 20.98s) "Symmetry: fall time = rise time" ──
+        sync_to(self, 16.58)
+        sym_line = DashedLine(axes.c2p(2, 0), axes.c2p(2, 21), color=CURVE, stroke_width=2.5)
+        p4 = card(
+            T("4. Symmetry", 22, CURVE, bold=True),
+            T("Rise time = Fall time = 2 s", 24, INK),
+            color=CURVE, pad=0.2
+        ).move_to(RIGHT * 3.4 + UP * 2.2)
+        self.play(Create(sym_line), FadeIn(p4), run_time=1.0)
+        self.wait(2.0)
+        self.play(FadeOut(sym_line), FadeOut(p4), run_time=0.4)
+
+        # ── Beat 5: (21.28s - 26.68s) "Domain: valid only for 0 <= t <= 4" ─
+        sync_to(self, 21.28)
+        dom_bracket = Line(axes.c2p(0, 0), axes.c2p(4, 0), color=POINT, stroke_width=7)
+        p5 = card(
+            T("5. Physical Domain", 22, POINT, bold=True),
+            T("Model valid only for 0 ≤ t ≤ 4 s", 24, INK),
+            color=POINT, pad=0.2
+        ).move_to(RIGHT * 3.4 + UP * 2.2)
+        self.play(Create(dom_bracket), FadeIn(p5), run_time=1.0)
+        self.wait(2.5)
+        self.play(FadeOut(dom_bracket), FadeOut(p5), run_time=0.4)
+
+        # ── Beat 6 & 7: (26.98s - 35.83s) Concluding synthesis ───────────
+        sync_to(self, 26.98)
+        summary_pill = pill("The graph tells the complete physical story at a glance!", GOOD, 24).move_to(DOWN * 2.2)
+        self.play(FadeIn(summary_pill), run_time=1.0)
+
+        # Re-scrub ball 0 to 4 smoothly
+        t_val.set_value(0.0)
+        self.play(t_val.animate.set_value(4.0), run_time=4.0, rate_func=linear)
+
+        # Hold until total audio length
+        sync_to(self, total_audio)
         check_layout(self)
