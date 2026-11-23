@@ -59,257 +59,257 @@ Let's test the rule.
 At tee equals one, we get twenty minus five, which is fifteen metres.
 
 16
-00:01:11,016 --> 00:01:13,008
-Here is the full mapping.
+00:01:11,016 --> 00:01:13,896
+Here is the mapping for five sample times.
 
 17
-00:01:13,308 --> 00:01:15,204
+00:01:14,196 --> 00:01:16,092
 Zero goes to zero.
 
 18
-00:01:15,504 --> 00:01:17,400
+00:01:16,392 --> 00:01:18,288
 One goes to fifteen.
 
 19
-00:01:17,700 --> 00:01:19,572
+00:01:18,588 --> 00:01:20,460
 Two goes to twenty.
 
 20
-00:01:19,872 --> 00:01:21,744
+00:01:20,760 --> 00:01:22,632
 Three goes to fifteen.
 
 21
-00:01:22,044 --> 00:01:23,940
+00:01:22,932 --> 00:01:24,828
 And four goes to zero.
 
 22
-00:01:24,240 --> 00:01:27,888
+00:01:25,128 --> 00:01:28,776
 Notice that every input has exactly one arrow leaving it.
 
 23
-00:01:28,188 --> 00:01:30,492
+00:01:29,076 --> 00:01:31,380
 That is what makes it a function.
 
 24
-00:01:30,792 --> 00:01:36,432
+00:01:31,680 --> 00:01:37,320
 The set of allowed inputs is the domain, and the set of outputs the function actually produces is the range.
 
 25
-00:01:37,368 --> 00:01:39,984
+00:01:37,320 --> 00:01:39,936
 Now let's turn this mapping into a graph.
 
 26
-00:01:40,284 --> 00:01:46,692
+00:01:40,236 --> 00:01:46,644
 Each input-output pair becomes a point: time goes on the horizontal axis, and height goes on the vertical axis.
 
 27
-00:01:46,992 --> 00:01:48,864
+00:01:46,944 --> 00:01:48,816
 Zero comma zero.
 
 28
-00:01:49,164 --> 00:01:51,036
+00:01:49,116 --> 00:01:50,988
 One comma fifteen.
 
 29
-00:01:51,336 --> 00:01:53,208
+00:01:51,288 --> 00:01:53,160
 Two comma twenty.
 
 30
-00:01:53,508 --> 00:01:55,380
+00:01:53,460 --> 00:01:55,332
 Three comma fifteen.
 
 31
-00:01:55,680 --> 00:01:57,552
+00:01:55,632 --> 00:01:57,504
 Four comma zero.
 
 32
-00:01:57,852 --> 00:02:01,668
+00:01:57,804 --> 00:02:01,620
 Join the points smoothly, and we get a curve called a parabola.
 
 33
-00:02:01,968 --> 00:02:05,136
+00:02:01,920 --> 00:02:05,088
 It rises, peaks, and falls symmetrically.
 
 34
-00:02:05,436 --> 00:02:11,076
+00:02:05,388 --> 00:02:11,028
 Be careful: this is not the path of the ball in space, because the ball moves straight up and down.
 
 35
-00:02:11,376 --> 00:02:13,752
+00:02:11,328 --> 00:02:13,704
 The graph shows height against time.
 
 36
-00:02:14,052 --> 00:02:18,996
+00:02:14,004 --> 00:02:18,948
 Notice also that at one second and at three seconds the height is the same, fifteen metres.
 
 37
-00:02:19,296 --> 00:02:21,816
+00:02:19,248 --> 00:02:21,768
 Two different inputs may share an output.
 
 38
-00:02:22,116 --> 00:02:27,420
+00:02:22,068 --> 00:02:27,372
 But one input can never have two outputs, because at any moment the ball has only one height.
 
 39
-00:02:27,720 --> 00:02:34,392
+00:02:27,672 --> 00:02:34,344
 That gives us the vertical line test: if every vertical line crosses a graph at most once, the graph shows a function.
 
 40
-00:02:34,692 --> 00:02:39,780
+00:02:34,644 --> 00:02:39,732
 A circle fails this test, because the line at ex equals zero crosses it twice.
 
 41
-00:02:40,656 --> 00:02:43,584
+00:02:40,608 --> 00:02:43,536
 Now let's find the key features step by step.
 
 42
-00:02:43,884 --> 00:02:45,924
+00:02:43,836 --> 00:02:45,876
 First, the intercepts.
 
 43
-00:02:46,224 --> 00:02:50,688
+00:02:46,176 --> 00:02:50,640
 At tee equals zero, aitch is zero, so the graph starts at the origin.
 
 44
-00:02:50,988 --> 00:02:56,940
+00:02:50,940 --> 00:02:56,892
 To find when the ball lands, set aitch equal to zero: twenty tee minus five tee squared equals zero.
 
 45
-00:02:57,240 --> 00:03:01,560
+00:02:57,192 --> 00:03:01,512
 Factorising, five tee times, four minus tee, equals zero.
 
 46
-00:03:01,860 --> 00:03:04,332
+00:03:01,812 --> 00:03:04,284
 So tee is zero or tee is four.
 
 47
-00:03:04,632 --> 00:03:07,032
+00:03:04,584 --> 00:03:06,984
 The ball lands after four seconds.
 
 48
-00:03:07,332 --> 00:03:09,588
+00:03:07,284 --> 00:03:09,540
 Second, the highest point.
 
 49
-00:03:09,888 --> 00:03:14,568
+00:03:09,840 --> 00:03:14,520
 We can rewrite the rule as twenty minus five times, tee minus two, squared.
 
 50
-00:03:14,868 --> 00:03:20,076
+00:03:14,820 --> 00:03:20,028
 The squared term is never negative, so the height is largest when it is zero, at tee equals two.
 
 51
-00:03:20,376 --> 00:03:22,656
+00:03:20,328 --> 00:03:22,608
 There, aitch equals twenty.
 
 52
-00:03:22,956 --> 00:03:26,340
+00:03:22,908 --> 00:03:26,292
 The maximum height is twenty metres, after two seconds.
 
 53
-00:03:26,640 --> 00:03:28,848
+00:03:26,592 --> 00:03:28,800
 Third, the domain and range.
 
 54
-00:03:29,148 --> 00:03:36,060
+00:03:29,100 --> 00:03:36,012
 The formula accepts any real number, but the ball only flies from zero to four seconds, so the domain here is zero to four.
 
 55
-00:03:36,360 --> 00:03:40,584
+00:03:36,312 --> 00:03:40,536
 The height stays between zero and twenty, so the range is zero to twenty.
 
 56
-00:03:40,884 --> 00:03:42,996
+00:03:40,836 --> 00:03:42,948
 Finally, the behaviour.
 
 57
-00:03:43,296 --> 00:03:46,368
+00:03:43,248 --> 00:03:46,320
 From zero to two seconds the graph is increasing.
 
 58
-00:03:46,668 --> 00:03:49,020
+00:03:46,620 --> 00:03:48,972
 From two to four it is decreasing.
 
 59
-00:03:49,320 --> 00:03:53,328
+00:03:49,272 --> 00:03:53,280
 To measure how fast, look at the average change in height per second.
 
 60
-00:03:53,628 --> 00:03:56,100
+00:03:53,580 --> 00:03:56,052
 From zero to one: fifteen.
 
 61
-00:03:56,400 --> 00:03:58,536
+00:03:56,352 --> 00:03:58,488
 From one to two: five.
 
 62
-00:03:58,836 --> 00:04:01,380
+00:03:58,788 --> 00:04:01,332
 From two to three: minus five.
 
 63
-00:04:01,680 --> 00:04:04,416
+00:04:01,632 --> 00:04:04,368
 From three to four: minus fifteen.
 
 64
-00:04:04,716 --> 00:04:07,860
+00:04:04,668 --> 00:04:07,812
 A negative value means the ball is moving downward.
 
 65
-00:04:08,160 --> 00:04:12,240
+00:04:08,112 --> 00:04:12,192
 The climb slows down, stops at the peak, and the fall speeds up.
 
 66
-00:04:13,656 --> 00:04:16,224
+00:04:13,608 --> 00:04:16,176
 Now let's read the graph as a story.
 
 67
-00:04:16,524 --> 00:04:20,268
+00:04:16,476 --> 00:04:20,220
 The starting point says: the ball leaves your hand at height zero.
 
 68
-00:04:20,568 --> 00:04:26,160
+00:04:20,520 --> 00:04:26,112
 The peak says: for an instant, at two seconds, the ball is twenty metres up and stops rising.
 
 69
-00:04:26,460 --> 00:04:29,940
+00:04:26,412 --> 00:04:29,892
 The second intercept says: it lands after four seconds.
 
 70
-00:04:30,240 --> 00:04:34,632
+00:04:30,192 --> 00:04:34,584
 The symmetry says: it takes exactly as long to fall as to rise.
 
 71
-00:04:34,932 --> 00:04:40,332
+00:04:34,884 --> 00:04:40,284
 And the domain reminds us that this formula describes the ball only between zero and four seconds.
 
 72
-00:04:40,632 --> 00:04:44,520
+00:04:40,584 --> 00:04:44,472
 Before the throw, or after the landing, it says nothing useful.
 
 73
-00:04:44,820 --> 00:04:49,092
+00:04:44,772 --> 00:04:49,044
 That is the power of a graph: it shows a whole relationship at a glance.
 
 74
-00:04:49,488 --> 00:04:51,672
+00:04:49,440 --> 00:04:51,624
 Let's recap three ideas.
 
 75
-00:04:51,972 --> 00:04:57,972
+00:04:51,924 --> 00:04:57,924
 One: a function gives each input exactly one output, and the vertical line test checks this on a graph.
 
 76
-00:04:58,272 --> 00:05:04,032
+00:04:58,224 --> 00:05:03,984
 Two: on a graph, each point is an input-output pair, with the input on the horizontal axis.
 
 77
-00:05:04,332 --> 00:05:11,052
+00:05:04,284 --> 00:05:11,004
 Three: the intercepts, the maximum, the domain and range, and where the graph rises or falls, tell the real-life story.
 
 78
-00:05:11,352 --> 00:05:13,224
+00:05:11,304 --> 00:05:13,176
 Thanks for watching.
 
 79
-00:05:13,524 --> 00:05:16,668
+00:05:13,476 --> 00:05:16,620
 Credits and the AI disclosure are on screen.

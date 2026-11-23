@@ -145,7 +145,7 @@ python E25B070759_Code/assemble_video.py
 ---
 
 ## 6. References & Credits
-- **Primary Textbook Reference:** *Thomas' Calculus* (14th Edition), George B. Thomas, Maurice D. Weir, and Joel Hass. Pearson Education.
+- **Primary Textbook Reference:** *course textbook and class notes
 - **Music Credit:** No background music (clean, high-intelligibility voice narration only).
 
 ---
@@ -153,3 +153,4 @@ python E25B070759_Code/assemble_video.py
 ## 7. AI Disclosure
 - **Assisted Tools:** Code generation, script timing orchestration, and speech synthesis assisted by Google DeepMind Antigravity AI and Microsoft Edge TTS (`en-IN-NeerjaNeural`).
 - **Student Verification:** All physical calculations, mathematical equations, domain/range limits, algebraic factorizations, and pedagogical layouts were independently formulated and verified by the student (Samruddhi Meshram).
+

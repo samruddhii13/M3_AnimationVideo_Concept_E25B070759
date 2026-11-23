@@ -135,3 +135,4 @@ The parabola appears on the graph because the horizontal axis represents **time 
 8. **`scene6_summary.py` (`Scene6Summary`)**:
    - Presents three takeaway cards sequentially.
    - Displays held closing frame with takeaway question, student metadata, textbook reference, music credit, and AI disclosure.
+

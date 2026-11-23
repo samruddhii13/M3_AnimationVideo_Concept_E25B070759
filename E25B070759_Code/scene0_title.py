@@ -1,22 +1,33 @@
-from manim import *
-from helpers import BG, CURVE, POINT, GOOD, BAD, MAXC, fit, boxed, check_bounds, sync_to, configure_scene, load_timings
+"""Scene 0 – Title card (silent, 5 s)."""
+import sys, os
+sys.path.insert(0, os.path.dirname(__file__))
+from design import *
 
-class Scene0Title(Scene):
+class Scene0Title(Base):
     def construct(self):
-        configure_scene(self)
-        
-        title = Text("From Input to Output:\nReading the Graph of a Function", font_size=46, weight=BOLD, line_spacing=1.2, color=WHITE)
-        subtitle = Text("Single-variable functions and graphs (M3 Calculus)", font_size=32, color=CURVE)
-        example = Text("Example: A cricket ball thrown straight up", font_size=28, color=POINT)
-        student = Text("Samruddhi Meshram | ID: E25B070759", font_size=28, color=LIGHT_GRAY)
-        
-        content = VGroup(title, subtitle, example, student).arrange(DOWN, buff=0.45)
-        box = SurroundingRectangle(content, color=CURVE, buff=0.45, corner_radius=0.15)
-        card = fit(VGroup(box, content)).move_to(ORIGIN)
-        
-        self.play(FadeIn(card, shift=UP*0.2), run_time=1.5)
-        self.wait(3.5)
-        self.play(FadeOut(card, shift=DOWN*0.2), run_time=1.0)
-        
-        check_bounds(self)
+        logo = T("M3 · Linear Algebra and Calculus", 28, MUTED)
+        title = T("From Input to Output:", 48, INK, bold=True)
+        sub   = T("Reading the Graph of a Function", 40, CURVE, bold=True)
+        rule_line = Line(LEFT*4, RIGHT*4, stroke_width=1.5, color=MUTED).set_opacity(0.5)
+        example = T("Example: a cricket ball thrown straight up", 30, INK)
+        meta = VGroup(
+            T("Samruddhi Meshram  ·  E25B070759", 26, MUTED),
+            T("Course: Linear Algebra and Calculus (M3)", 26, MUTED),
+        ).arrange(DOWN, buff=0.18)
 
+        content = VGroup(logo, title, sub, rule_line, example, meta).arrange(DOWN, buff=0.38)
+        place(content)
+
+        bx = SurroundingRectangle(content, buff=0.5, corner_radius=0.22,
+                                  color=CURVE, stroke_width=2.5,
+                                  fill_color=CURVE, fill_opacity=0.06)
+        self.add(bx, content)
+
+        # progress track (empty at scene 0)
+        w = config.frame_width
+        track = Line(LEFT*w/2, RIGHT*w/2, stroke_width=4, color=WHITE).set_opacity(0.12)
+        track.to_edge(UP, buff=0.05)
+        self.add(track)
+
+        self.wait(5)
+        check_layout(self)
