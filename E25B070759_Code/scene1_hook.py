@@ -17,29 +17,29 @@ class Scene1Hook(Base):
         # ── Setup Ruler on Left ──────────────────────────────────────────
         ruler = NumberLine(
             x_range=[0, 25, 5],
-            length=4.4,
+            length=3.8,
             rotation=PI/2,
             include_numbers=True,
-            font_size=24,
+            font_size=20,
             label_direction=LEFT,
-            line_to_number_buff=0.30,
+            line_to_number_buff=0.28,
             color=MUTED
         )
-        ruler.move_to([-4.6, -0.35, 0])
-        ruler_lbl = T("Ruler (m)", 22, MUTED).next_to(ruler, UP, buff=0.2)
-        note_g = T("v₀ = 20 m/s, g = 10 m/s²", 18, MUTED).next_to(ruler, DOWN, buff=0.25)
+        ruler.move_to([-5.2, -0.1, 0])
+        ruler_lbl = T("Ruler (m)", 18, MUTED).next_to(ruler, UP, buff=0.15)
+        note_g = T("v₀ = 20 m/s, g = 10 m/s²", 16, MUTED).next_to(ruler, DOWN, buff=0.22)
 
         # Intro Card on Right
         intro_card = card(
-            T("Real-Life Example", 24, CURVE),
-            T("Cricket Ball Thrown Upward", 32, INK, bold=True),
-            T("Can we predict its height at any time?", 26, MUTED),
-            color=CURVE, gap=0.25, pad=0.35
-        ).move_to(RIGHT * 1.8 + UP * 0.3)
+            T("Real-Life Example", 22, CURVE),
+            T("Cricket Ball Thrown Upward", 30, INK, bold=True),
+            T("Can we predict its height at any time?", 24, MUTED),
+            color=CURVE, gap=0.22, pad=0.35
+        ).move_to(RIGHT * 2.0 + UP * 0.3)
 
         t_val = ValueTracker(0.0)
         ball = always_redraw(
-            lambda: make_ball(0.25).move_to(ruler.n2p(h_of(t_val.get_value())))
+            lambda: make_ball(0.24).move_to(ruler.n2p(h_of(t_val.get_value())))
         )
 
         # ── Beat 1: (0.00s) "Imagine you throw a cricket ball straight up into the air." ──
@@ -47,14 +47,14 @@ class Scene1Hook(Base):
         self.play(Create(ruler), FadeIn(ruler_lbl), FadeIn(note_g), FadeIn(intro_card), run_time=1.2)
         self.play(FadeIn(ball), run_time=0.6)
 
-        # Dotted trail & readout card
+        # Readout card
         def readout_card():
             tv = t_val.get_value()
             hv = h_of(tv)
-            t_txt = T(f"t = {tv:.1f} s", 26, POINT)
-            h_txt = T(f"h = {hv:.1f} m", 26, GOOD)
-            c = card(t_txt, h_txt, direction=RIGHT, gap=0.3, pad=0.22, color=POINT)
-            return c.move_to(RIGHT * 1.8 + UP * 2.3)
+            t_txt = T(f"t = {tv:.1f} s", 24, POINT)
+            h_txt = T(f"h = {hv:.1f} m", 24, GOOD)
+            c = card(t_txt, h_txt, direction=RIGHT, gap=0.25, pad=0.2, color=POINT)
+            return c.move_to(RIGHT * 2.0 + UP * 2.2)
 
         readout = always_redraw(readout_card)
         trail = TracedPath(lambda: ruler.n2p(h_of(t_val.get_value())), stroke_color=POINT, stroke_width=2.5, stroke_opacity=0.6)
@@ -63,17 +63,17 @@ class Scene1Hook(Base):
         sync_to(self, 3.64)
         self.play(FadeOut(intro_card), run_time=0.4)
         self.add(trail, readout)
-        q1 = pill("1 s:  How high? (15 m)", POINT, 24).move_to(RIGHT * 1.8 + UP * 1.0)
+        q1 = pill("1 s:  How high? (15 m)", POINT, 24).move_to(RIGHT * 2.0 + UP * 0.9)
         self.play(t_val.animate.set_value(1.0), FadeIn(q1), run_time=1.8, rate_func=linear)
 
         # ── Beat 3: (6.24s) "After two seconds?" ─────────────────────────
         sync_to(self, 6.24)
-        q2 = pill("2 s:  Maximum height? (20 m)", MAXC, 24).move_to(RIGHT * 1.8 + UP * 0.2)
+        q2 = pill("2 s:  Maximum height? (20 m)", MAXC, 24).move_to(RIGHT * 2.0 + UP * 0.1)
         self.play(t_val.animate.set_value(2.0), FadeIn(q2), run_time=1.6, rate_func=linear)
 
         # ── Beat 4: (8.41s) "And when does it come back down?" ───────────
         sync_to(self, 8.41)
-        q3 = pill("4 s:  When does it land? (0 m)", BAD, 24).move_to(RIGHT * 1.8 + DOWN * 0.6)
+        q3 = pill("4 s:  When does it land? (0 m)", BAD, 24).move_to(RIGHT * 2.0 + DOWN * 0.7)
         self.play(t_val.animate.set_value(4.0), FadeIn(q3), run_time=1.8, rate_func=linear)
         dust = Circle(radius=0.35, color=MUTED, stroke_width=2).move_to(ruler.n2p(0))
         self.play(dust.animate.scale(1.8).set_opacity(0), run_time=0.4)

@@ -97,39 +97,47 @@ def header(n, title, total=6):
 
 def ball_and_graph_stage():
     """
-    Returns (ruler, axes, labels). Ruler left, axes right.
-    SAME height (4.4) and scale 0..25, bottoms and heights aligned to machine precision.
+    Returns (ruler, axes, labels).
+    3-zone architecture:
+      - Left   (x = -5.2): Ruler 0..25 m with red cricket ball
+      - Middle (x = -1.4): Axes & parabola graph
+      - Right  (x in [1.5, 6.2]): Dedicated card / explanation column (ZERO overlap!)
+    Ruler and graph y-axis have identical 3.8-unit height and 0..25 scale, aligned to machine precision.
     """
+    AXIS_H = 3.8
+    AXIS_W = 4.5
+
     axes = Axes(
         x_range=[0, 5, 1],
         y_range=[0, 25, 5],
-        x_length=6.0,
-        y_length=4.4,
-        axis_config={"color": MUTED, "stroke_width": 2, "include_tip": False, "font_size": 24},
+        x_length=AXIS_W,
+        y_length=AXIS_H,
+        axis_config={"color": MUTED, "stroke_width": 2, "include_tip": False, "font_size": 20},
         x_axis_config={"numbers_to_include": [0, 1, 2, 3, 4, 5]},
         y_axis_config={"numbers_to_include": [0, 5, 10, 15, 20, 25]}
     )
-    axes.move_to(RIGHT * 2.6 + DOWN * 0.05)
-    xl = T("Time t (s)", 22, MUTED).next_to(axes.x_axis, DOWN, buff=0.18)
-    yl = T("Height h (m)", 22, MUTED).next_to(axes.y_axis, UP, buff=0.15)
+    axes.move_to(np.array([-1.4, -0.1, 0]))
+
+    xl = T("Time t (s)", 20, MUTED).next_to(axes.x_axis, DOWN, buff=0.18)
+    yl = T("Height h (m)", 20, MUTED).next_to(axes.y_axis, UP, buff=0.15)
 
     ruler = NumberLine(
         x_range=[0, 25, 5],
-        length=4.4,
+        length=AXIS_H,
         rotation=PI/2,
         include_numbers=True,
-        font_size=24,
+        font_size=20,
         label_direction=LEFT,
-        line_to_number_buff=0.30,
+        line_to_number_buff=0.28,
         color=MUTED
     )
-    ruler.move_to([-4.6, axes.c2p(0, 12.5)[1], 0])
+    ruler.move_to(np.array([-5.2, axes.c2p(0, 12.5)[1], 0]))
 
-    # Perfect alignment shift: match ruler n2p(0) to axes c2p(0,0) in y, and set x to -4.6
-    shift_vec = np.array([-4.6 - ruler.n2p(0)[0], axes.c2p(0, 0)[1] - ruler.n2p(0)[1], 0])
+    # Align ruler n2p(0) to axes c2p(0,0) in y, and set x to -5.2
+    shift_vec = np.array([-5.2 - ruler.n2p(0)[0], axes.c2p(0, 0)[1] - ruler.n2p(0)[1], 0])
     ruler.shift(shift_vec)
 
-    ruler_title = T("Ruler (m)", 20, MUTED).next_to(ruler, UP, buff=0.15)
+    ruler_title = T("Ruler (m)", 18, MUTED).next_to(ruler, UP, buff=0.15)
 
     return ruler, axes, VGroup(xl, yl, ruler_title)
 

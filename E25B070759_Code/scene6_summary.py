@@ -52,29 +52,31 @@ class Scene6Summary(Base):
         sync_to(self, 21.86)
         self.play(FadeOut(cards), FadeOut(hdr), run_time=0.6)
 
-        headline = T("What goes in? What comes out? What does each feature mean?", 28, POINT, bold=True)
-        name_id  = T("Samruddhi Meshram | E25B070759", 26, INK, bold=True)
-        course   = T("Linear Algebra and Calculus (M3)", 22, CURVE)
-        div_line = Line(LEFT * 4.8, RIGHT * 4.8, color=CURVE, stroke_width=1.5).set_opacity(0.7)
+        headline   = T("What goes in? What comes out? What does each feature mean?", 26, POINT, bold=True)
+        topic_line = T("Topic: Single-Variable Functions & Graphs", 22, CURVE)
+        name_id    = T("Samruddhi Meshram | E25B070759", 26, INK, bold=True)
+        course     = T("Linear Algebra and Calculus (M3)", 20, MUTED)
+        div_line   = Line(LEFT * 4.8, RIGHT * 4.8, color=CURVE, stroke_width=1.5).set_opacity(0.7)
 
-        c_ref    = T("References: course textbook and class notes", 20, INK)
-        c_mus    = T("Music: No background music", 20, INK)
-        c_ai     = T("AI disclosure: code, script and narration voice created with AI tools.", 18, MUTED)
-        c_ai2    = T("Maths verified by the student. Details in README.md.", 18, MUTED)
+        c_ref      = T("References: course textbook and class notes", 20, INK)
+        c_mus      = T("Music: No background music", 20, INK)
+        c_ai       = T("AI disclosure: code, script and narration voice created with AI tools.", 18, MUTED)
+        c_ai2      = T("Maths verified by the student. Details in README.md.", 18, MUTED)
 
         credits_grp = VGroup(c_ref, c_mus, c_ai, c_ai2).arrange(DOWN, buff=0.14, aligned_edge=LEFT)
 
         closing_vgroup = VGroup(
             headline,
+            topic_line,
             name_id,
             course,
             div_line,
             credits_grp
-        ).arrange(DOWN, buff=0.22).move_to(CONTENT_CENTER)
+        ).arrange(DOWN, buff=0.18).move_to(CONTENT_CENTER)
 
-        # Entry order: headline, name/course, line, credits one by one (0.4s each)
-        self.play(FadeIn(headline, shift=UP*0.2), run_time=0.6)
-        self.play(FadeIn(name_id), FadeIn(course), run_time=0.6)
+        # Entry order: headline, topic, name/course, line, credits one by one
+        self.play(FadeIn(headline, shift=UP*0.2), run_time=0.5)
+        self.play(FadeIn(topic_line), FadeIn(name_id), FadeIn(course), run_time=0.6)
         self.play(Create(div_line), run_time=0.4)
         self.play(FadeIn(c_ref), run_time=0.4)
         self.play(FadeIn(c_mus), run_time=0.4)
