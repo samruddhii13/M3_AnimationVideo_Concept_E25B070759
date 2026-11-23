@@ -1,0 +1,6 @@
+manim
+edge-tts
+reportlab
+pillow
+numpy
+
