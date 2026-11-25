@@ -1,8 +1,9 @@
 # From Input to Output: Reading the Graph of a Function
 **M3 Linear Algebra & Calculus — Animated Video Project**
 
-### 📹 Video Deliverable
-- **Watch / Download Video:** [E25B070759_Video.mp4 (GitHub)](https://github.com/samruddhii13/M3_AnimationVideo_Concept_E25B070759/blob/main/E25B070759_Video.mp4) | [Direct File Link (Repository)](./E25B070759_Video.mp4)
+### 📹 Video Link
+- **Video Link:** [Watch the Animation Video](VIDEO_LINK_HERE)
+- **Video File (Repository):** [E25B070759_Video.mp4](./E25B070759_Video.mp4)
 - **Specifications:** 1080p Full HD, 16:9, 30 fps, Progressive H.264 / AAC, Duration: 5 min 17.33 s (317.33 s)
 - **Subtitles:** [Audio/subtitles.srt](./Audio/subtitles.srt) (Separate synchronized SRT file)
 - **Storyboard Document:** [Storyboard/Functions_Graphs_Storyboard.pdf](./Storyboard/Functions_Graphs_Storyboard.pdf)
