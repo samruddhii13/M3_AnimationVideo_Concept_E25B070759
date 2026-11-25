@@ -2,7 +2,7 @@
 **M3 Linear Algebra & Calculus — Animated Video Project**
 
 ### 📹 Video Link
-- **Video Link:** [Watch the Animation Video](VIDEO_LINK_HERE)
+- **Video Link:** [Watch the Animation Video](https://drive.google.com/file/d/1I-UgU4pVGD8MRemJ7KyCdi25bA8A7B4P/view?usp=sharing)
 - **Video File (Repository):** [E25B070759_Video.mp4](./E25B070759_Video.mp4)
 - **Specifications:** 1080p Full HD, 16:9, 30 fps, Progressive H.264 / AAC, Duration: 5 min 17.33 s (317.33 s)
 - **Subtitles:** [Audio/subtitles.srt](./Audio/subtitles.srt) (Separate synchronized SRT file)
